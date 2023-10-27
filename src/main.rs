@@ -21,9 +21,10 @@ use serenity::model::prelude::RoleId;
 
 use serenity::model::application::command::Command;
 use serenity::model::application::interaction::{Interaction, InteractionResponseType};
+use serenity::model::interactions::application_command::ApplicationCommand;
 
-use clokwerk::{AsyncScheduler, Job};
 use clokwerk::Interval::Tuesday;
+use clokwerk::{AsyncScheduler, Job};
 //use clokwerk::Interval::Friday;
 use std::time::Duration;
 
@@ -40,16 +41,15 @@ impl EventHandler for Handler {
     async fn interaction_create(&self, ctx: Context, interaction: Interaction) {
         if let Interaction::ApplicationCommand(command) = interaction {
             let content = match command.data.name.as_str() {
-                "ping" => commands::ping::run(&command.data.options),
-                "echo" => {
+                "biden" => {
                     if let Some(guild_id) = command.guild_id {
                         if let Some(guild) = guild_id.to_guild_cached(&ctx) {
                             // Now you can work with the `guild` object as expected.
-                            println!("{:?}", guild.owner_id);
+                            info!("{:?}", guild.owner_id);
                             let guild_owner_id = guild.owner_id;
 
                             if command.user.id == guild_owner_id {
-                                commands::echo::run(&command.data.options)
+                                commands::biden::run(&command.data.options)
                             } else {
                                 "You are not the server owner.".to_string()
                             }
@@ -77,15 +77,42 @@ impl EventHandler for Handler {
     }
 
     async fn ready(&self, ctx: Context, ready: Ready) {
-        let _ = Command::create_global_application_command(&ctx, |command| {
-            info!("attempting to register slash command for ping");
-            commands::ping::register(command)
-        })
-        .await;
+        // XXX: delete stale commands
+        //let global_commands =
+        //    match ApplicationCommand::get_global_application_commands(&ctx.http).await {
+        //        Ok(commands) => commands,
+        //        Err(why) => {
+        //            eprintln!("Error getting global application commands: {:?}", why);
+        //            return;
+        //        }
+        //    };
+
+        //// Delete each global application command
+        //for command in global_commands {
+        //	debug!("[+] attempting to delete command {:?}", command);
+        //    if let Err(why) =
+        //        ApplicationCommand::delete_global_application_command(&ctx.http, command.id).await
+        //    {
+        //        eprintln!("Error deleting global application command: {:?}", why);
+        //    }
+        //}
+
+        // XXX: register statements for stale commands
+        //let _ = Command::create_global_application_command(&ctx, |command| {
+        //    info!("attempting to register slash command for ping");
+        //    commands::ping::register(command)
+        //})
+        //.await;
+
+        //let _ = Command::create_global_application_command(&ctx, |command| {
+        //    info!("attempting to register slash command for echo");
+        //    commands::echo::register(command)
+        //})
+        //.await;
 
         let _ = Command::create_global_application_command(&ctx, |command| {
-            info!("attempting to register slash command for echo");
-            commands::echo::register(command)
+            info!("attempting to register slash command for biden");
+            commands::biden::register(command)
         })
         .await;
 
@@ -181,10 +208,10 @@ async fn toggle_everyone_send_message_permission_in_vote_channel(ctx: Context) {
                     };
 
                     if allow {
-                        println!("[+] opening permissions...");
-                    //permission_overwrite.allow |= Permissions::SEND_MESSAGES;
+                        warn!("[+] opening permissions...");
+                        //permission_overwrite.allow |= Permissions::SEND_MESSAGES;
                     } else {
-                        println!("[!] closing permissions...");
+                        warn!("[!] closing permissions...");
                         permission_overwrite.deny |= Permissions::SEND_MESSAGES;
                     }
 
