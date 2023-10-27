@@ -1,14 +1,14 @@
 use serenity::builder::CreateApplicationCommand;
+use serenity::model::application::interaction::application_command::CommandDataOptionValue;
 use serenity::model::prelude::command::CommandOptionType;
 use serenity::model::prelude::interaction::application_command::CommandDataOption;
-use serenity::model::interactions::application_command::ApplicationCommandInteractionDataOptionValue;
 
 pub fn run(options: &[CommandDataOption]) -> String {
     if let Some(option) = options.first() {
         if let Some(value) = &option.resolved {
-		if let ApplicationCommandInteractionDataOptionValue::String(text) = value {
-			return text.clone();
-		}
+            if let CommandDataOptionValue::String(text) = value {
+                return text.clone();
+            }
             //if let Some(text) = value.to_string() {
             //    return text.to_string();
             //}
