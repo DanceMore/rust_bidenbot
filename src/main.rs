@@ -24,7 +24,7 @@ use serenity::model::application::interaction::{Interaction, InteractionResponse
 use serenity::model::interactions::application_command::ApplicationCommand;
 use serenity::model::interactions::InteractionApplicationCommandCallbackDataFlags;
 
-use clokwerk::Interval::Tuesday;
+use clokwerk::Interval::Wednesday;
 use clokwerk::{AsyncScheduler, Job};
 //use clokwerk::Interval::Friday;
 use std::time::Duration;
@@ -130,9 +130,9 @@ impl EventHandler for Handler {
         // I haven't done a good job passing the ctx around, so I get errors attempting
         // to use multiple scheduled event declarations.
         scheduler
-            .every(Tuesday)
+            .every(Wednesday)
             .at("00:02")
-            .and_every(Tuesday)
+            .and_every(Wednesday)
             .at("23:58")
             .run(move || toggle_everyone_send_message_permission_in_vote_channel(ctx.clone()));
 
