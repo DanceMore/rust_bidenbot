@@ -194,8 +194,8 @@ async fn toggle_everyone_send_message_permission_in_vote_channel(ctx: Context) {
 
                 if let Some(channel) = vote_channel {
                     info!(
-                        "[+] operating on channel {} and role {}",
-                        channel.name, everyone_role_id
+                        "[+] operating on guild {} channel {} and role {}",
+                        guild, channel.name, everyone_role_id
                     );
                     //channel
                     //    .say(
