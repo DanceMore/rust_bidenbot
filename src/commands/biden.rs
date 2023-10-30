@@ -8,7 +8,7 @@ pub fn run(options: &[CommandDataOption]) -> String {
     if let Some(option) = options.first() {
         if let Some(value) = &option.resolved {
             if let CommandDataOptionValue::String(text) = value {
-                return text.clone();
+                return format!("My fellow American, this is not implemented. You requested to run: `{}`.", text).to_string();
             }
         }
     }

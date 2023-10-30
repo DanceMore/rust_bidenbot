@@ -22,6 +22,7 @@ use serenity::model::prelude::RoleId;
 use serenity::model::application::command::Command;
 use serenity::model::application::interaction::{Interaction, InteractionResponseType};
 use serenity::model::interactions::application_command::ApplicationCommand;
+use serenity::model::interactions::InteractionApplicationCommandCallbackDataFlags;
 
 use clokwerk::Interval::Tuesday;
 use clokwerk::{AsyncScheduler, Job};
@@ -45,7 +46,7 @@ impl EventHandler for Handler {
                     if let Some(guild_id) = command.guild_id {
                         if let Some(guild) = guild_id.to_guild_cached(&ctx) {
                             // Now you can work with the `guild` object as expected.
-                            info!("{:?}", guild.owner_id);
+                            info!("{:?} appears to be a Guild Owner", guild.owner_id);
                             let guild_owner_id = guild.owner_id;
 
                             if command.user.id == guild_owner_id {
@@ -67,7 +68,11 @@ impl EventHandler for Handler {
                 .create_interaction_response(&ctx.http, |response| {
                     response
                         .kind(InteractionResponseType::ChannelMessageWithSource)
-                        .interaction_response_data(|message| message.content(content))
+                        .interaction_response_data(|message| {
+                            message
+                                .content(content)
+                                .flags(InteractionApplicationCommandCallbackDataFlags::EPHEMERAL)
+                        })
                 })
                 .await
             {
