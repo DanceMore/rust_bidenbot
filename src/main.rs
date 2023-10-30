@@ -237,6 +237,12 @@ async fn toggle_everyone_send_message_permission_in_vote_channel(ctx: Context) {
     }
 }
 
+
+// fun fact, GuildID == @everyone RoleID for that server....
+// I might change this to triple-check it....
+//
+// https://docs.rs/serenity/latest/serenity/model/guild/struct.Guild.html#structfield.id
+//
 async fn find_everyone_role(http: impl AsRef<Http>, guild_id: GuildId) -> Result<RoleId, Error> {
     let roles = guild_id.roles(http).await?;
 
