@@ -46,10 +46,11 @@ impl EventHandler for Handler {
                     if let Some(guild_id) = command.guild_id {
                         if let Some(guild) = guild_id.to_guild_cached(&ctx) {
                             // Now you can work with the `guild` object as expected.
-                            info!("{:?} appears to be a Guild Owner", guild.owner_id);
+                            info!("{:?} attempted to use a command...", guild.owner_id);
                             let guild_owner_id = guild.owner_id;
 
                             if command.user.id == guild_owner_id {
+                                info!("{:?} appears to be a Guild Owner", guild.owner_id);
                                 commands::biden::run(&command.data.options)
                             } else {
                                 "You are not the server owner.".to_string()
