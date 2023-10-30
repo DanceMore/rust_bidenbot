@@ -190,7 +190,7 @@ async fn toggle_everyone_send_message_permission_in_vote_channel(ctx: Context) {
             if let Ok(channels) = channels_result {
                 let vote_channel = channels
                     .values()
-                    .find(|channel| &channel.name == "vote-here");
+                    .find(|channel| &channel.name == "biden");
 
                 if let Some(channel) = vote_channel {
                     info!(
