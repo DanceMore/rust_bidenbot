@@ -46,7 +46,7 @@ impl EventHandler for Handler {
                     if let Some(guild_id) = command.guild_id {
                         if let Some(guild) = guild_id.to_guild_cached(&ctx) {
                             // Now you can work with the `guild` object as expected.
-                            info!("{:?} attempted to use a command...", guild.owner_id);
+                            info!("{:?} attempted to use a command...", command.user.id);
                             let guild_owner_id = guild.owner_id;
 
                             if command.user.id == guild_owner_id {
