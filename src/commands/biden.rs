@@ -25,7 +25,7 @@ pub fn register(command: &mut CreateApplicationCommand) -> &mut CreateApplicatio
                 .description("Specify 'open' to open voting or 'close' to close it")
                 .kind(CommandOptionType::String)
                 .required(true)
-                .add_string_choice("Open", "open")
-                .add_string_choice("Close", "close")
+                .add_string_choice("open", "open")
+                .add_string_choice("close", "close")
         })
 }
